@@ -1,0 +1,58 @@
+<li><a href="javascript:void(0)">Vender</a>
+  <ul id="vender-list">
+    <!-- Dynamic content will be inserted here -->
+  </ul>
+</li>
+
+<script>
+  // Fetch vender data from the simulated API
+  async function fetchVenders() {
+    try {
+      const response = await fetch('/api/venders.json');
+      if (!response.ok) {
+        throw new Error('Failed to fetch vender data');
+      }
+      const data = await response.json();
+      console.log(data)
+      renderVenders(data);
+    } catch (error) {
+      console.error('Error fetching vender data:', error);
+    }
+  }
+
+  // Render vender data into the menu
+  function renderVenders(venders) {
+    const venderList = document.getElementById('vender-list');
+    venderList.innerHTML = ''; // Clear existing content
+
+    // Group venders by category
+    const groupedVenders = groupBy(venders, 'category');
+
+    // Create list items for each group
+    for (const [category, items] of Object.entries(groupedVenders)) {
+      const categoryItem = document.createElement('li');
+      categoryItem.innerHTML = `<a href="javascript:void(0)">${category}</a>`;
+      const subList = document.createElement('ul');
+
+      items.forEach((vender) => {
+        const venderItem = document.createElement('li');
+        venderItem.innerHTML = `<a href="${vender.link}">${vender.name}</a>`;
+        subList.appendChild(venderItem);
+      });
+
+      categoryItem.appendChild(subList);
+      venderList.appendChild(categoryItem);
+    }
+  }
+
+  // Utility function to group array items by a key
+  function groupBy(array, key) {
+    return array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
+      return result;
+    }, {});
+  }
+
+  // Initialize the menu
+  fetchVenders();
+</script>

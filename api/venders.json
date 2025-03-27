@@ -1,0 +1,6 @@
+[
+  { "name": "Vender A", "category": "Category 1", "link": "/vender-a" },
+  { "name": "Vender B", "category": "Category 1", "link": "/vender-b" },
+  { "name": "Vender C", "category": "Category 2", "link": "/vender-c" },
+  { "name": "Vender D", "category": "Category 2", "link": "/vender-d" }
+]
