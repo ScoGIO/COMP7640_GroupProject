@@ -1,0 +1,17 @@
+{
+  "users": [
+    {"user_ID": 1, "pwd": "ven1pass", "type": 2},
+    {"user_ID": 2, "pwd": "ven2pass", "type": 2},
+    {"user_ID": 3, "pwd": "ven3pass", "type": 2},
+    {"user_ID": 4, "pwd": "ven4pass", "type": 2},
+    {"user_ID": 5, "pwd": "ven5pass", "type": 2},
+    {"user_ID": 6, "pwd": "cust1pass", "type": 1},
+    {"user_ID": 7, "pwd": "cust2pass", "type": 1},
+    {"user_ID": 8, "pwd": "cust3pass", "type": 1},
+    {"user_ID": 9, "pwd": "cust4pass", "type": 1},
+    {"user_ID": 10, "pwd": "cust5pass", "type": 1},
+    {"user_ID": 11, "pwd": "cust6pass", "type": 1},
+    {"user_ID": 12, "pwd": "cust7pass", "type": 1},
+    {"user_ID": 13, "pwd": "adminpass", "type": 0}
+  ]
+}

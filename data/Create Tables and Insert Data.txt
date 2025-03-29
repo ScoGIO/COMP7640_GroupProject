@@ -1,0 +1,189 @@
+1. 创建表：
+
+CREATE TABLE User (
+    user_ID INT PRIMARY KEY,
+    pwd VARCHAR(255) NOT NULL,
+    type INT NOT NULL CHECK (type IN (0, 1, 2))
+);
+
+CREATE TABLE Vendor (
+    vendor_ID INT PRIMARY KEY,
+    user_ID INT NOT NULL,
+    vendor_name VARCHAR(255) NOT NULL,
+    customer_feedback_score FLOAT,
+    geographical_presence VARCHAR(255),
+    FOREIGN KEY (user_ID) REFERENCES User(user_ID)
+);
+
+CREATE TABLE Product (
+    product_ID INT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    price FLOAT NOT NULL,
+    tags JSON,
+    inventory INT,
+    vendor_ID INT,
+    FOREIGN KEY (vendor_ID) REFERENCES Vendor(vendor_ID)
+);
+
+CREATE TABLE Customer (
+    customer_ID INT PRIMARY KEY,
+    user_ID INT NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    contact_number INT,
+    FOREIGN KEY (user_ID) REFERENCES User(user_ID)
+);
+
+CREATE TABLE `Order` (
+    order_ID INT PRIMARY KEY,
+    customer_ID INT NOT NULL,
+    total_price FLOAT,
+    order_time TIME,
+    FOREIGN KEY (customer_ID) REFERENCES Customer(customer_ID)
+);
+
+CREATE TABLE Transaction (
+    transaction_ID INT PRIMARY KEY,
+    product_ID INT NOT NULL,
+    order_ID INT NOT NULL,
+    count INT NOT NULL,
+    transaction_price FLOAT NOT NULL,
+    status INT CHECK (status IN (0, 1, 2, 3)),
+    FOREIGN KEY (product_ID) REFERENCES Product(product_ID),
+    FOREIGN KEY (order_ID) REFERENCES `Order`(order_ID)
+);
+
+
+2. 数据插入：
+
+INSERT INTO User (user_ID, pwd, type) VALUES
+(1, 'ven1pass', 2), (2, 'ven2pass', 2), (3, 'ven3pass', 2),
+(4, 'ven4pass', 2), (5, 'ven5pass', 2), (6, 'cust1pass', 1),
+(7, 'cust2pass', 1), (8, 'cust3pass', 1), (9, 'cust4pass', 1),
+(10, 'cust5pass', 1), (11, 'cust6pass', 1), (12, 'cust7pass', 1),
+(13, 'adminpass', 0);
+
+INSERT INTO Vendor VALUES
+(1, 1, 'Fresh Foods Co', 4.5, 'New York'),
+(2, 2, 'Tech Gadgets Ltd', 4.8, 'Hong Kong'),
+(3, 3, 'Fashion Hub', 4.2, 'Los Angeles'),
+(4, 4, 'Home Essentials', 4.6, 'Chicago'),
+(5, 5, 'Book World', 4.7, 'Sydney');
+
+INSERT INTO Customer VALUES
+(1, 6, 'John Doe', 155512345),
+(2, 7, 'Jane Smith', 155598765),
+(3, 8, 'Mike Johnson', 155523456),
+(4, 9, 'Sarah Wilson', 155534567),
+(5, 10, 'David Brown', 155545678),
+(6, 11, 'Emily Davis', 155556789),
+(7, 12, 'Chris Lee', 155567890);
+
+INSERT INTO Product VALUES
+(1, 'Organic Apples', 2.99, '["fruit", "organic"]', 100, 1),
+(2, 'Wireless Mouse', 19.99, '["electronics"]', 50, 2),
+(3, 'Cotton T-Shirt', 14.99, '["clothing"]', 75, 3),
+(4, 'Kitchen Knife Set', 49.99, '["home", "kitchen"]', 30, 4),
+(5, 'Bestseller Novel', 12.99, '["books"]', 200, 5),
+(6, 'Bananas', 0.99, '["fruit"]', 150, 1),
+(7, 'Bluetooth Speaker', 79.99, '["electronics"]', 40, 2),
+(8, 'Jeans', 39.99, '["clothing"]', 60, 3);
+
+INSERT INTO `Order` VALUES
+(1, 1, 29.90, '09:00:07'),
+(2, 2, 119.94, '10:30:23'),
+(3, 3, 44.97, '11:15:45'),
+(4, 4, 49.99, '12:00:29'),
+(5, 5, 25.98, '13:45:43'),
+(6, 6, 84.94, '14:30:15'),
+(7, 7, 39.99, '15:10:58'),
+(8, 1, 59.96, '16:05:21'),      -- 2 items: (6,20) + (5,39.97)
+(9, 2, 169.97, '17:20:59'),    -- 2 items: (7,79.99) + (8,89.98)
+(10, 3, 9.90, '08:45:00'),     -- 10 bananas (6)
+(11, 4, 149.97, '19:30:09'),   -- 3 knives (4)
+(12, 5, 64.95, '20:15:02'),    -- 5 shirts (3)
+(13, 6, 25.98, '09:30:46'),    -- 2 novels (5)
+(14, 7, 199.95, '10:40:51'),   -- 5 speakers (7)
+(15, 1, 12.99, '11:55:13'),    -- 1 novel (5)
+(16, 2, 4.95, '12:10:21'),     -- 5 bananas (6)
+(17, 3, 29.97, '13:25:25'),    -- 3 apples (1)
+(18, 4, 159.96, '14:50:34'),   -- 4 jeans (8)
+(19, 5, 79.99, '15:05:15'),    -- 1 speaker (7)
+(20, 6, 19.99, '16:20:56'),    -- 1 mouse (2)
+(21, 7, 104.95, '17:35:00'),   -- 5 knives (4) + 1 banana (6)
+(22, 1, 89.97, '18:40:59'),    -- 3 jeans (8)
+(23, 2, 34.97, '19:00:46'),    -- 2 shirts (3) + 1 banana (6)
+(24, 3, 239.94, '20:10:43'),   -- 6 speakers (7)
+(25, 4, 9.90, '08:20:53'),     -- 10 bananas (6)
+(26, 5, 49.99, '09:45:26'),    -- 1 knife set (4)
+(27, 6, 119.94, '10:55:16'),   -- 6 mice (2)
+(28, 7, 74.95, '12:30:05'),    -- 5 shirts (3)
+(29, 1, 39.99, '13:40:30'),    -- 1 jeans (8)
+(30, 2, 179.97, '14:50:00');   -- 3 speakers (7)
+
+INSERT INTO Transaction VALUES
+-- Order 1
+(1, 1, 1, 10, 29.90, 3),
+-- Order 2
+(2, 2, 2, 6, 119.94, 3),
+-- Order 3
+(3, 3, 3, 3, 44.97, 3),
+-- Order 4
+(4, 4, 4, 1, 49.99, 3),
+-- Order 5
+(5, 5, 5, 2, 25.98, 3),
+-- Order 6 (2 items)
+(6, 6, 6, 5, 4.95, 1),
+(7, 7, 6, 1, 79.99, 1),
+-- Order 7
+(8, 8, 7, 1, 39.99, 2),
+-- Order 8 (2 items)
+(9, 6, 8, 20, 19.80, 3),
+(10, 5, 8, 3, 38.97, 3),
+-- Order 9 (2 items)
+(11, 7, 9, 1, 79.99, 1),
+(12, 8, 9, 2, 79.98, 1),
+-- Order 10
+(13, 6, 10, 10, 9.90, 3),
+-- Order 11
+(14, 4, 11, 3, 149.97, 0),
+-- Order 12
+(15, 3, 12, 5, 74.95, 3),
+-- Order 13
+(16, 5, 13, 2, 25.98, 3),
+-- Order 14
+(17, 7, 14, 5, 399.95, 1),
+-- Order 15
+(18, 5, 15, 1, 12.99, 2),
+-- Order 16
+(19, 6, 16, 5, 4.95, 3),
+-- Order 17
+(20, 1, 17, 3, 8.97, 3),
+-- Order 18
+(21, 8, 18, 4, 159.96, 1),
+-- Order 19
+(22, 7, 19, 1, 79.99, 3),
+-- Order 20
+(23, 2, 20, 1, 19.99, 3),
+-- Order 21 (2 items)
+(24, 4, 21, 3, 149.97, 1),
+(25, 6, 21, 1, 0.99, 1),
+-- Order 22
+(26, 8, 22, 3, 119.97, 3),
+-- Order 23 (2 items)
+(27, 3, 23, 2, 29.98, 3),
+(28, 6, 23, 1, 0.99, 3),
+-- Order 24
+(29, 7, 24, 6, 479.94, 0),
+-- Order 25
+(30, 6, 25, 10, 9.90, 3),
+-- Order 26
+(31, 4, 26, 1, 49.99, 3),
+-- Order 27
+(32, 2, 27, 6, 119.94, 1),
+-- Order 28
+(33, 3, 28, 5, 74.95, 3),
+-- Order 29
+(34, 8, 29, 1, 39.99, 2),
+-- Order 30
+(35, 7, 30, 3, 239.97, 1);
+

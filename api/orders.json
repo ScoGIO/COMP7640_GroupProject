@@ -1,0 +1,14 @@
+{
+  "orders": [
+    {"order_ID": 1, "customer_ID": 1, "total_price": 29.90, "order_time": "09:00:07"},
+    {"order_ID": 2, "customer_ID": 2, "total_price": 119.94, "order_time": "10:30:23"},
+    {"order_ID": 3, "customer_ID": 3, "total_price": 44.97, "order_time": "11:15:45"},
+    {"order_ID": 4, "customer_ID": 4, "total_price": 49.99, "order_time": "12:00:29"},
+    {"order_ID": 5, "customer_ID": 5, "total_price": 25.98, "order_time": "13:45:43"},
+    {"order_ID": 6, "customer_ID": 6, "total_price": 84.94, "order_time": "14:30:15"},
+    {"order_ID": 7, "customer_ID": 7, "total_price": 39.99, "order_time": "15:10:58"},
+    {"order_ID": 8, "customer_ID": 1, "total_price": 59.96, "order_time": "16:05:21"},
+    {"order_ID": 9, "customer_ID": 2, "total_price": 169.97, "order_time": "17:20:59"},
+    {"order_ID": 10, "customer_ID": 3, "total_price": 9.90, "order_time": "08:45:00"}
+  ]
+}

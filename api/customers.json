@@ -1,0 +1,46 @@
+{
+  "customers": [
+    {
+      "customer_ID": 1,
+      "user_ID": 6,
+      "user_name": "John Doe",
+      "contact_number": 155512345
+    },
+    {
+      "customer_ID": 2,
+      "user_ID": 7,
+      "user_name": "Jane Smith",
+      "contact_number": 155598765
+    },
+    {
+      "customer_ID": 3,
+      "user_ID": 8,
+      "user_name": "Mike Johnson",
+      "contact_number": 155523456
+    },
+    {
+      "customer_ID": 4,
+      "user_ID": 9,
+      "user_name": "Sarah Wilson",
+      "contact_number": 155534567
+    },
+    {
+      "customer_ID": 5,
+      "user_ID": 10,
+      "user_name": "David Brown",
+      "contact_number": 155545678
+    },
+    {
+      "customer_ID": 6,
+      "user_ID": 11,
+      "user_name": "Emily Davis",
+      "contact_number": 155556789
+    },
+    {
+      "customer_ID": 7,
+      "user_ID": 12,
+      "user_name": "Chris Lee",
+      "contact_number": 155567890
+    }
+  ]
+}
