@@ -9,7 +9,7 @@
     <meta name="keywords" content=" clean, digital, ecommerce, food, modern, multipurpose, organic, prestashop, responsive"/>
     <meta name="author" content="Hastech"/>
 
-    <title>Shop Cart - Jena - Organic Food Website Template Using Bootstrap 5</title>
+    <title>Contact Us - Jena - Organic Food Website Template Using Bootstrap 5</title>
 
     <!--== Favicon ==-->
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
@@ -32,18 +32,16 @@
     <!--== Main Style CSS ==-->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <!--== Custom Header Loader ==-->
-    <script src="assets/js/load-header.js"></script>
-
+<!--== Custom Header Loader ==-->
+<script src="assets/js/load-header.js"></script>
 </head>
 
 <body>
 
 <!--wrapper start-->
-<div class="wrapper page-shop-wrapper">
+<div class="wrapper home-default-wrapper">
 
   <div id="header-container"></div>
-  
   <main class="main-content">
     <!--== Start Page Title Area ==-->
     <section class="page-title-area bg-img" data-bg-img="assets/img/photos/bg-page1.webp">
@@ -51,8 +49,8 @@
         <div class="row align-items-center">
           <div class="col-lg-12 m-auto">
             <div class="page-title-content text-center">
-              <h2 class="title">Cart</h2>
-              <div class="bread-crumbs"><a href="index.html">Home</a><span class="breadcrumb-sep"><i class="ion-ios-arrow-forward"></i></span><span>Cart</span></div>
+              <h2 class="title">Contact us</h2>
+              <div class="bread-crumbs"><a href="index.html">Home</a><span class="breadcrumb-sep"><i class="ion-ios-arrow-forward"></i></span><span>Contact us</span></div>
             </div>
           </div>
         </div>
@@ -60,173 +58,97 @@
     </section>
     <!--== Start Page Title Area ==-->
 
-    <!--== Start Cart Area Wrapper ==-->
-    <section class="product-area cart-page-area">
+    <!--== Start Contact Area ==-->
+    <section class="contact-area">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
-            <div class="section-title-style2">
-              <h5 class="title">Shopping Cart</h5>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="cart-table-wrap">
-              <div class="cart-table table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th class="width-thumbnail"></th>
-                      <th class="width-name">Product</th>
-                      <th class="width-price"> Price</th>
-                      <th class="width-quantity">Quantity</th>
-                      <th class="width-subtotal">Subtotal</th>
-                      <th class="width-remove"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="product-thumbnail">
-                        <a href="shop-single-product.html"><img class="w-100" src="assets/img/shop/details/1.webp" alt="Image" width="80" height="80"></a>
-                      </td>
-                      <td class="product-name">
-                        <h5><a href="shop-single-product.html">Wayfarer Messenger Bag1</a></h5>
-                      </td>
-                      <td class="product-price"><span class="amount">$120.00</span></td>
-                      <td class="cart-quality">
-                        <div class="product-details-quality">
-                          <input type="number" class="input-text qty text" step="1" min="1" max="100" name="quantity" value="1" title="Qty" placeholder="">
+          <div class="col-lg-6">
+            <div class="contact-form">
+              <form class="contact-form-wrapper" id="contact-form" action="http://whizthemes.com/mail-php/raju/arden/mail.php" method="post">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="section-title">
+                      <h2 class="title">Leave us a message</h2>
+                      <p>There are many variations of passages of Lorem Ipsum available, but the majority Lorem Ipsum available.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input class="form-control" type="text" name="con_name" placeholder="Your name *">
                         </div>
-                      </td>
-                      <td class="product-total"><span>$120.00</span></td>
-                      <td class="product-remove"><a href="#"><i class="ion-ios-trash-outline"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td class="product-thumbnail">
-                        <a href="shop-single-product.html"><img class="w-100" src="assets/img/shop/details/2.webp" alt="Image" width="80" height="80"></a>
-                      </td>
-                      <td class="product-name">
-                        <h5><a href="shop-single-product.html">Strive Shoulder Pack1</a></h5>
-                      </td>
-                      <td class="product-price"><span class="amount">$120.00</span></td>
-                      <td class="cart-quality">
-                        <div class="product-details-quality">
-                          <input type="number" class="input-text qty text" step="1" min="1" max="100" name="quantity" value="1" title="Qty" placeholder="">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <input class="form-control" type="email" name="con_email" placeholder="Your email *">
                         </div>
-                      </td>
-                      <td class="product-total"><span>$120.00</span></td>
-                      <td class="product-remove"><a href="#"><i class="ion-ios-trash-outline"></i></a></td>
-                    </tr>
-                    <tr class="no-border">
-                      <td class="product-thumbnail">
-                        <a href="shop-single-product.html"><img class="w-100" src="assets/img/shop/details/3.webp" alt="Image" width="80" height="80"></a>
-                      </td>
-                      <td class="product-name">
-                        <h5><a href="shop-single-product.html">Established Fact12</a></h5>
-                      </td>
-                      <td class="product-price"><span class="amount">$120.00</span></td>
-                      <td class="cart-quality">
-                        <div class="product-details-quality">
-                          <input type="number" class="input-text qty text" step="1" min="1" max="100" name="quantity" value="1" title="Qty" placeholder="">
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <input class="form-control" type="text" name="con_phone" placeholder="Subject">
                         </div>
-                      </td>
-                      <td class="product-total"><span>$120.00</span></td>
-                      <td class="product-remove"><a href="#"><i class="ion-ios-trash-outline"></i></a></td>
-                    </tr>
-                </tbody>
-              </table>
-              </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group mb-0">
+                          <textarea class="form-control textarea" name="con_message" placeholder="Type your message here.."></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group mb-0">
+                          <button class="btn btn-theme" type="submit">SEND MESSAGE</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="cart-shiping-update-wrapper">
-              <div class="cart-shiping-btn continure-btn">
-                <a class="btn btn-link" href="shop.html"><i class="ion-ios-arrow-back"></i> Back To Shop</a>
-              </div>
-              <div class="cart-shiping-btn update-btn">
-                <a class="btn btn-link" href="shop.html"><i class="ion-arrow-return-left"></i> Back To Shop</a>
-              </div>
-            </div>
+            <!-- Message Notification -->
+            <div class="form-message"></div>
           </div>
-          <div class="col-lg-4">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-lg-4">
-            <div class="cart-calculate-discount-wrap mb-40">
-              <h4>Calculate shipping </h4>
-              <div class="calculate-discount-content">
-                <div class="select-style">
-                  <select class="select-active">
-                    <option>Bangladesh</option>
-                    <option>Bahrain</option>
-                    <option>Azerbaijan</option>
-                    <option>Barbados</option>
-                    <option>Barbados</option>
-                  </select>
-                </div>
-                <div class="select-style">
-                  <select class="select-active">
-                    <option>State / County</option>
-                    <option>Bahrain</option>
-                    <option>Azerbaijan</option>
-                    <option>Barbados</option>
-                    <option>Barbados</option>
-                  </select>
-                </div>
-                <div class="input-style">
-                  <input type="text" placeholder="Town / City">
-                </div>
-                <div class="input-style">
-                  <input type="text" placeholder="Postcode / ZIP">
-                </div>
-                <div class="calculate-discount-btn">
-                  <a class="btn btn-link" href="#/">Update</a>
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="section-title mt-md-30">
+                  <h2 class="title">Contact address</h2>
+                  <p>There are many variations of passages of Lorem Ipsum available, but the majority Lorem Ipsum available.</p>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="cart-calculate-discount-wrap mb-40">
-              <h4>Coupon Discount </h4>
-              <div class="calculate-discount-content">
-                <p>Enter your coupon code if you have one.</p>
-                <div class="input-style">
-                  <input type="text" placeholder="Coupon code">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="contact-info-content">
+                  <div class="contact-info-item">
+                    <div class="content">
+                      <h4>Our Address</h4>
+                      <p>House. 9, Road. 12, Widgets. Orled. Sydney. Milaro.</p>
+                    </div>
+                  </div>
+                  <div class="contact-info-item">
+                    <div class="content">
+                      <h4>Phone Number</h4>
+                      <a href="tel://+0123456789">+ 0 123 456 789</a>
+                      <a href="tel://+0123456789">+ 0 123 456 789</a>
+                    </div>
+                  </div>
+                  <div class="contact-info-item mb-0 pb-0">
+                    <div class="content">
+                      <h4>Web Address</h4>
+                      <a href="mailto://demo@example.com"> demo@example.com</a>
+                      <a href="mailto://demo@example.com"> demo@example.com</a>
+                    </div>
+                  </div>
                 </div>
-                <div class="calculate-discount-btn">
-                  <a class="btn btn-link" href="#/">Apply Coupon</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12 col-lg-4">
-            <div class="grand-total-wrap">
-              <div class="grand-total-content">
-                <h3>Subtotal <span>$180.00</span></h3>
-                <div class="grand-shipping">
-                  <span>Shipping</span>
-                  <ul>
-                    <li><input type="radio" name="shipping" value="info" checked="checked"><label>Free shipping</label></li>
-                    <li><input type="radio" name="shipping" value="info" checked="checked"><label>Flat rate: <span>$100.00</span></label></li>
-                    <li><input type="radio" name="shipping" value="info" checked="checked"><label>Local pickup: <span>$120.00</span></label></li>
-                  </ul>
-                </div>
-                <div class="shipping-country">
-                  <p>Shipping to Bangladesh</p>
-                </div>
-                <div class="grand-total">
-                  <h4>Total <span>$185.00</span></h4>
-                </div>
-              </div>
-              <div class="grand-total-btn">
-                <a class="btn btn-link" href="shop-checkout.html">Proceed to checkout</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!--== End Cart Area Wrapper ==-->
+    <!--== End Contact Area ==-->
   </main>
 
   <!--== Start Footer Area Wrapper ==-->

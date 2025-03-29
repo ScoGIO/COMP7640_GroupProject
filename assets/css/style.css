@@ -6860,6 +6860,8 @@ table p {
 
 .login-register-border {
   border-right: 1px solid #e5e5e5;
+  margin: 30px auto;
+  padding: 20px;
 }
 @media only screen and (max-width: 767px) {
   .login-register-border {
