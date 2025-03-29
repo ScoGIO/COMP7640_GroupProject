@@ -1,7 +1,7 @@
 (function($) {
   
   "use strict";
-    //更多精品模板：http://www.bootstrapmb.com
+    //锟斤拷锟洁精品模锟藉：http://www.bootstrapmb.com
   // Background Image
   $('[data-bg-img]').each(function() {
     $(this).css('background-image', 'url(' + $(this).data("bg-img") + ')');
