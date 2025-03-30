@@ -87,14 +87,11 @@
                         <span class="current">Sort By :</span>
                       </div>
                       <div class="col-md-9 col-sm-10">
-                        <select>
-                          <option selected="">Relevance</option>
-                          <option value="1">Best sellers</option>
-                          <option value="2">Relevance</option>
-                          <option value="3">Name, A to Z</option>
-                          <option value="4">Name, Z to A</option>
-                          <option value="5">Price, low to high</option>
-                          <option value="5">Price, high to low</option>
+                        <select id="productSorting">
+                          <option value="name_asc">Name, A to Z</option>
+                          <option value="name_desc">Name, Z to A</option>
+                          <option value="price_asc">Price, low to high</option>
+                          <option value="price_desc">Price, high to low</option>
                         </select>
                       </div>
                     </div>
@@ -106,73 +103,6 @@
               <div class="tab-pane fade show active" id="column-three" role="tabpanel" aria-labelledby="column-three-tab">
                 <div class="row">
                   
-                  <div class="col-lg-12">
-                    <!-- Start Product Item -->
-                    <div class="product-list-item">
-                      <div class="row" style="width: 1500px;">
-                        <div class="col-md-8">
-                          <div class="product-info">
-                            <h3 class="title" style="font-size: 25px;"><a href="shop-single-product.html">Rival Field Messenger 1</a></h3>
-                            <div class="prices">
-                              <span class="price">$43.70</span>
-                            </div>
-                            <p>Inventory: 100+<br>
-                              tags: health, home</p>
-                            <div class="content-inner">
-                              <a class="btn-theme" href="shop-cart.html"> Add to cart</a>
-                              <div class="product-info-action">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- End Product Item -->
-                  </div>
-
-                  <div class="col-lg-12">
-                    <!-- Start Product Item -->
-                    <div class="product-list-item mb-xs-40">
-                      <div class="row">
-                        <div class="col-md-8">
-                          <div class="product-info">
-                            <h4 class="title"><a href="shop-single-product.html">Beginner's Yoga1</a></h4>
-                            <div class="prices">
-                              <span class="price">$43.70</span>
-                            </div>
-                            <p>tags: health, home</p>
-                            <div class="content-inner">
-                              <a class="btn-theme" href="shop-cart.html"> Add to cart</a>
-                              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- End Product Item -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="pagination-area">
-                  <nav>
-                    <ul class="page-numbers">
-                      <li>
-                        <a class="page-number active" href="shop.html">1</a>
-                      </li>
-                      <li>
-                        <a class="page-number" href="shop.html">2</a>
-                      </li>
-                      <li>
-                        <a class="page-number next mr-0" href="shop.html">
-                          <i class="ion-ios-arrow-forward"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                  <div class="col-md-4 text-pagination">Showing 1-12 of 16 item(s)</div>
                 </div>
               </div>
             </div>
@@ -619,6 +549,9 @@
 
 <!--=== Custom Js ===-->
 <script src="assets/js/custom.js"></script>
+
+<script src="assets/js/loadProducts.js"></script>
+
 
 </body>
 
