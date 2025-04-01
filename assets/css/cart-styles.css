@@ -1,0 +1,120 @@
+/* Cart count styling */
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 12px;
+  background-color: #E72463;
+  color: #fff;
+  font-weight: 600;
+  z-index: 1;
+}
+
+/* Cart items styling */
+.minicart-item {
+  position: relative;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+}
+
+.minicart-item .thumb {
+  display: flex;
+  align-items: center;
+}
+
+.minicart-item .thumb span {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.minicart-item .quantity-number {
+  margin-left: 5px;
+  font-weight: 600;
+  color: #666;
+}
+
+.minicart-item .quantity-price {
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.minicart-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Minicart dropdown styling */
+.header-minicart-content {
+  width: 300px;
+  padding: 20px;
+  right: 0;
+  left: auto;
+  top: 100%;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+.header-minicart:hover .header-minicart-content {
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0;
+}
+
+/* Empty cart message */
+.minicart-list p {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Cart total styling */
+.minicart-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 2px solid #f0f0f0;
+}
+
+/* Cart checkout button */
+.minicart-buttons {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.minicart-buttons .cart-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #E72463;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.minicart-buttons .cart-button:hover {
+  background-color: #333;
+}

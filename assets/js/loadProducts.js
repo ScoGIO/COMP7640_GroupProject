@@ -142,10 +142,16 @@ document.addEventListener('DOMContentLoaded', function() {
       button.addEventListener('click', function(e) {
         e.preventDefault();
         const productId = this.getAttribute('data-product-id');
-        console.log(`Adding product ID ${productId} to cart`);
-        // Here you would add code to actually add to cart
-        // Show success message
-        alert('Product added to cart!');
+        const product = allProducts.find(p => p.product_ID == productId);
+        
+        if (product) {
+          // Use the addToCart function from cart.js
+          window.addToCart({
+            id: product.product_ID,
+            name: product.product_name,
+            price: product.price
+          });
+        }
       });
     });
   }

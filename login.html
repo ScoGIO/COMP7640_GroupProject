@@ -53,9 +53,9 @@
           <div class="row align-items-center">
             <div class="col-lg-12 m-auto">
               <div class="page-title-content text-center">
-                <h2 class="title">Login / Register</h2>
+                <h2 class="title">Login</h2>
                 <div class="bread-crumbs"><a href="index.html">Home</a><span class="breadcrumb-sep"><i
-                      class="ion-ios-arrow-forward"></i></span><span>Login / Register</span></div>
+                      class="ion-ios-arrow-forward"></i></span><span>Login</span></div>
               </div>
             </div>
           </div>
@@ -607,80 +607,8 @@
   <!--=== Custom Js ===-->
   <script src="assets/js/custom.js"></script>
 
-  <!-- Add this script before the closing body tag -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const loginButton = document.getElementById('loginButton');
-      const loginMessage = document.getElementById('loginMessage');
-
-      loginButton.addEventListener('click', function () {
-        // Get input values
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
-
-        // Basic validation
-        if (!username || !password) {
-          showLoginMessage('Please enter both username and password', 'error');
-          return;
-        }
-
-        // Send credentials to backend
-        fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        })
-          .then(response => response.json())  // Parse the JSON response
-          .then(data => {
-            // Extract user from the response
-            if (data.user && data.user.length > 0) {
-              // Find matching user (using the first one in this example)
-              const user = data.user[0];
-
-              // Check credentials
-              if (user.user_ID.toString() === username && user.pwd === password) {
-                // Login successful
-                // Redirect based on user type
-                if (user.type === 1) {
-                  // Regular user
-                  window.location.href = 'my-account.html';
-                } else if (user.type === 2) {
-                  // Vendor user
-                  window.location.href = 'vendor.html';
-                } else {
-                  // Fallback for unexpected user type
-                  console.warn('Unknown user type:', user.type);
-                  window.location.href = 'my-account.html';
-                }
-              } else {
-                // Failed login - credentials don't match
-                showLoginMessage('Invalid username or password', 'error');
-              }
-            } else {
-              // No users found in response
-              showLoginMessage('Invalid username or password', 'error');
-            }
-          })
-          .catch(error => {
-            console.error('Login error:', error);
-            showLoginMessage('An error occurred during login. Please try again.', 'error');
-          });
-      });
-
-      function showLoginMessage(message, type) {
-        loginMessage.textContent = message;
-        loginMessage.style.display = 'block';
-        loginMessage.style.color = type === 'error' ? '#dc3545' : '#28a745';
-
-        // Auto-hide message after 5 seconds
-        setTimeout(() => {
-          loginMessage.style.display = 'none';
-        }, 5000);
-      }
-    });
-  </script>
+  <!-- login js -->
+  <script src="assets/js/login.js"></script>
 
 </body>
 
