@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="./assets/css/addproduct.css">
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1>Add Product</h1>
+        </div>
+        <div class="content">
+            <div class="form-section">
+                <h2>Add Product Details</h2>
+                <form action="add_product.php" method="post">
+					<label for="vendor_ID">Vendor ID *</label>
+                    <input type="text" id="vendor_ID" name="vendor_ID" required>
+					
+                    <label for="name">Product Name *</label>
+                    <input type="text" id="name" name="name" required>
+                    
+                    <label for="price">Price *</label>
+                    <input type="text" id="price" name="price" required>
+					
+					<label for="inventory">Inventory *</label>
+                    <input type="text" id="inventory" name="inventory" required>
+                    
+                    <label for="tags">Tags * (formart：["food"],["fruit"])</label>
+                    <input type="text" id="tags" name="tags" required placeholder='["food"],["fruit"]'>
+                    
+                    
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+			<div class="button-section">
+                <a href="index.html" class="back-button">
+                    <button type="button">HOME</button>
+                </a>
+            </div>
+            <div class="vendor-id-section">
+                <h2>Product ID</h2>
+                <p id="product_ID">Product ID will appear here</p>
+				
+				<h2>Submitted Data</h2>
+				<div class="data-row">
+					<strong>Vendor ID:</strong> <span id="vendor_ID_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Product Name:</strong> <span id="name_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Price:</strong> <span id="price_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Inventory:</strong> <span id="inventory_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Tags:</strong> <span id="tags_display"></span>
+				</div>
+				
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+			const urlParams = new URLSearchParams(window.location.search);
+    
+			// 显示Product ID
+			displayValue('product_ID', urlParams.get('product_ID'));
+    
+			// 显示其他输入字段
+			displayValue('vendor_ID_display', urlParams.get('vendor_ID'));
+			displayValue('name_display', urlParams.get('name'));
+			displayValue('price_display', urlParams.get('price'));
+			displayValue('inventory_display', urlParams.get('inventory'));
+			displayValue('tags_display', urlParams.get('tags'));
+			
+
+			//成功提示保持不变
+			const success = urlParams.get('success');
+			if (success === '1') alert("Product created successfully");
+			else if (success === '0') alert("Failed to create product");
+		});
+
+		// 通用数据显示函数（含XSS防护）
+		function displayValue(elementId, value) {
+			const element = document.getElementById(elementId);
+			if (element && value) {
+				let displayValue = decodeURIComponent(value);
+				// 如果是 tags，尝试解析 JSON 并转换为逗号分隔的字符串
+				if (elementId === 'tags_display') {
+					try {
+						const tagsArray = JSON.parse(displayValue);
+						displayValue = tagsArray.join(', ');
+					} catch (e) {
+						// 如果解析失败，保持原始值
+					}
+				}
+				element.innerHTML = displayValue
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;');
+			}
+		}
+    </script>
+</body>
+</html>

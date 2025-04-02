@@ -700,51 +700,6 @@
 <!--=== Custom Js ===-->
 <script src="assets/js/custom.js"></script>
 
-<!--===监听后台总价并返回购物车显示===-->>
-<script>
-  // Example function to fetch total price from the backend
-  async function updateTotalPrice() {
-    try {
-      // Example cart data (replace with actual cart data)
-      const cartData = [
-        { productId: 1, quantity: 1 },
-        { productId: 2, quantity: 2 }
-      ];
-
-      // Send a POST request to the backend
-      const response = await fetch('/api/calculate-total', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cartData)
-      });
-
-      // Parse the JSON response
-      const data = await response.json();
-
-      // Update the total price in the DOM
-      const totalPriceElement = document.getElementById('total-price');
-      totalPriceElement.textContent = `$${data.total.toFixed(2)}`;
-    } catch (error) {
-      console.error('Error updating total price:', error);
-    }
-  }
-
-  // Example: Call the function when the page loads
-  document.addEventListener('DOMContentLoaded', () => {
-    updateTotalPrice();
-  });
-
-  // Example: Call the function when cart changes (e.g., item added/removed)
-  document.querySelectorAll('.minicart-remove').forEach(button => {
-    button.addEventListener('click', () => {
-      // Update total price after removing an item
-      updateTotalPrice();
-    });
-  });
-</script>
-
 </body>
 
 </html>

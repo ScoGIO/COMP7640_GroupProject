@@ -3,120 +3,87 @@ document.addEventListener('DOMContentLoaded', function() {
   const checkoutData = JSON.parse(localStorage.getItem('checkout_cart'));
   
   if (!checkoutData || !checkoutData.items || checkoutData.items.length === 0) {
-    // Redirect back to cart if no items
-    window.location.href = 'shop-cart.html';
+    // Redirect back to shop if no items
+    window.location.href = 'shop.html';
     return;
   }
   
-  // Display checkout items
-  const orderSummaryElement = document.getElementById('order-summary');
-  if (orderSummaryElement) {
+  // Update the product list on checkout page
+  const orderProductList = document.querySelector('.your-order-product ul');
+  if (orderProductList) {
     // Clear current items
-    orderSummaryElement.innerHTML = '';
+    orderProductList.innerHTML = '';
     
-    // Add heading
-    const headingElement = document.createElement('h4');
-    headingElement.textContent = 'Order Summary';
-    orderSummaryElement.appendChild(headingElement);
-    
-    // Create order summary table
-    const tableElement = document.createElement('table');
-    tableElement.className = 'order-table';
-    
-    // Add table header
-    const theadElement = document.createElement('thead');
-    theadElement.innerHTML = `
-      <tr>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Total</th>
-      </tr>
-    `;
-    tableElement.appendChild(theadElement);
-    
-    // Add table body
-    const tbodyElement = document.createElement('tbody');
-    
-    // Add items to table
+    // Add each item to the order summary
     checkoutData.items.forEach(item => {
       const itemTotal = item.price * item.quantity;
       
-      const rowElement = document.createElement('tr');
-      rowElement.innerHTML = `
-        <td>${item.name}</td>
-        <td>${item.quantity}</td>
-        <td>$${item.price.toFixed(2)}</td>
-        <td>$${itemTotal.toFixed(2)}</td>
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <span class="product-title">${item.name} × ${item.quantity}</span>
+        <span class="product-price">$${itemTotal.toFixed(2)}</span>
       `;
       
-      tbodyElement.appendChild(rowElement);
+      orderProductList.appendChild(listItem);
     });
-    
-    // Add subtotal row
-    const subtotalRow = document.createElement('tr');
-    subtotalRow.className = 'subtotal';
-    subtotalRow.innerHTML = `
-      <td colspan="3">Subtotal</td>
-      <td>$${checkoutData.total.toFixed(2)}</td>
+  }
+  
+  // Update subtotal
+  const subtotalElement = document.querySelector('.your-order-subtotal span');
+  if (subtotalElement) {
+    subtotalElement.textContent = `$${checkoutData.total.toFixed(2)}`;
+  }
+  
+  // Update shipping
+  const shippingElement = document.querySelector('.your-order-shipping');
+  if (shippingElement) {
+    shippingElement.innerHTML = `
+      <h3>Shipping <span>$7.00</span></h3>
     `;
-    tbodyElement.appendChild(subtotalRow);
-    
-    // Add shipping row (example - could be calculated based on address)
-    const shippingRow = document.createElement('tr');
-    shippingRow.className = 'shipping';
-    shippingRow.innerHTML = `
-      <td colspan="3">Shipping</td>
-      <td>$7.00</td>
-    `;
-    tbodyElement.appendChild(shippingRow);
-    
-    // Add total row
-    const totalRow = document.createElement('tr');
-    totalRow.className = 'total';
+  }
+  
+  // Update total
+  const totalElement = document.querySelector('.your-order-total');
+  if (totalElement) {
     const orderTotal = checkoutData.total + 7.00; // Adding shipping
-    totalRow.innerHTML = `
-      <td colspan="3"><strong>Total</strong></td>
-      <td><strong>$${orderTotal.toFixed(2)}</strong></td>
+    totalElement.innerHTML = `
+      <h3>Total <span>$${orderTotal.toFixed(2)}</span></h3>
     `;
-    tbodyElement.appendChild(totalRow);
-    
-    tableElement.appendChild(tbodyElement);
-    orderSummaryElement.appendChild(tableElement);
   }
   
   // Handle place order button
-  const placeOrderBtn = document.getElementById('place-order-btn');
-  if (placeOrderBtn) {
-    placeOrderBtn.addEventListener('click', function(e) {
+  const placeOrderButton = document.getElementById('place-order-btn');
+  if (placeOrderButton) {
+    placeOrderButton.addEventListener('click', function(e) {
       e.preventDefault();
+      
+      // Validate form fields (simplified validation)
+      const firstName = document.querySelector('input[type="text"]').value;
+      
+      if (!firstName) {
+        alert('Please fill in the required fields');
+        return;
+      }
       
       // Create order data
       const orderData = {
         items: checkoutData.items,
-        total: checkoutData.total,
+        subtotal: checkoutData.total,
         shipping: 7.00,
-        orderTotal: checkoutData.total + 7.00,
-        orderDate: new Date().toISOString(),
-        // Add customer info from form
-        customer: {
-          name: document.getElementById('customer-name')?.value || '',
-          email: document.getElementById('customer-email')?.value || '',
-          address: document.getElementById('customer-address')?.value || ''
-        }
+        total: checkoutData.total + 7.00,
+        orderDate: new Date().toISOString()
       };
       
-      // Save order data (normally would send to server)
+      // Save order data
       localStorage.setItem('last_order', JSON.stringify(orderData));
       
-      // Clear checkout cart
+      // Clear checkout and cart data
       localStorage.removeItem('checkout_cart');
-      
-      // Clear shopping cart
       localStorage.removeItem('cart');
       
-      // Redirect to order confirmation
-      window.location.href = 'order-confirmation.html';
+      // Redirect to success page or show success message
+      alert('Order placed successfully!');
+      window.location.href = 'index.html';
     });
   }
 });

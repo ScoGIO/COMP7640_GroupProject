@@ -26,51 +26,20 @@ document.addEventListener('DOMContentLoaded', function() {
     updateMiniCartItems();
     
     // Update cart page if on cart page
-    const cartItemsElement = document.getElementById('cart-items');
-    const cartTotalElement = document.getElementById('cart-total');
-    
-    if (cartItemsElement && cartTotalElement) {
-      // Clear current cart items
-      cartItemsElement.innerHTML = '';
-      
-      if (cart.length === 0) {
-        cartItemsElement.innerHTML = '<p>Your cart is empty</p>';
-        cartTotalElement.textContent = '$0.00';
-        return;
-      }
-      
-      // Calculate total
-      let total = 0;
-      
-      // Add each item to the cart UI
-      cart.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-        
-        const itemElement = document.createElement('div');
-        itemElement.className = 'cart-item';
-        itemElement.innerHTML = `
-          <div class="cart-item-info">
-            <h4>${item.name}</h4>
-            <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</div>
-          </div>
-          <div class="cart-item-actions">
-            <button class="btn-quantity" data-action="decrease" data-index="${index}">-</button>
-            <span class="item-quantity">${item.quantity}</span>
-            <button class="btn-quantity" data-action="increase" data-index="${index}">+</button>
-            <button class="btn-remove" data-index="${index}"><i class="ion-android-close"></i></button>
-          </div>
-        `;
-        
-        cartItemsElement.appendChild(itemElement);
-      });
-      
-      // Update total
-      cartTotalElement.textContent = `$${total.toFixed(2)}`;
-    }
+    updateCartPage();
     
     // Save cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveCart();
+  }
+
+  // Function to save cart to localStorage
+  function saveCart() {
+    try {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    } catch (error) {
+      console.error('Failed to save cart:', error);
+      // Show fallback message to user
+    }
   }
 
   // Function to update mini cart items in header
@@ -91,9 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemElement = document.createElement('div');
         itemElement.className = 'minicart-item';
         
-        // Create simplified HTML structure to avoid text overflow issues
         itemElement.innerHTML = `
-          <a class="thumb" href="single-product.html?id=${item.id}">
+          <a class="thumb" href="shop-single-product.html?id=${item.id}">
             <span>${item.name}</span>
             <span class="quantity-number">${item.quantity}x</span>
           </a>
@@ -104,6 +72,123 @@ document.addEventListener('DOMContentLoaded', function() {
         list.appendChild(itemElement);
       });
     });
+  }
+  
+  // Function to update cart page
+  function updateCartPage() {
+    // Check if we're on the cart page
+    const cartTable = document.querySelector('.cart-table tbody');
+    if (!cartTable) return;
+    
+    // Clear table
+    cartTable.innerHTML = '';
+    
+    if (cart.length === 0) {
+      // Display empty cart message
+      const emptyRow = document.createElement('tr');
+      emptyRow.innerHTML = `
+        <td colspan="6" style="text-align: center; padding: 30px;">
+          <p>Your cart is empty</p>
+          <a href="shop.html" class="btn-theme">Continue Shopping</a>
+        </td>
+      `;
+      cartTable.appendChild(emptyRow);
+      
+      // Update totals
+      updateCartTotals(0);
+      return;
+    }
+    
+    // Add table header if not present
+    const headerRow = document.querySelector('.cart-table thead tr');
+    if (!headerRow || headerRow.children.length === 0) {
+      const headerElement = document.querySelector('.cart-table thead');
+      if (headerElement) {
+        headerElement.innerHTML = `
+          <tr>
+            <th class="product-thumbnail">Image</th>
+            <th class="product-name">Product</th>
+            <th class="product-price">Price</th>
+            <th class="product-quantity">Quantity</th>
+            <th class="product-subtotal">Total</th>
+            <th class="product-remove">Remove</th>
+          </tr>
+        `;
+      }
+    }
+    
+    // Add each item to the cart table
+    cart.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="product-thumbnail">
+          <a href="shop-single-product.html?id=${item.id}">
+            <img src="assets/img/shop/cart-placeholder.webp" alt="${item.name}" width="80">
+          </a>
+        </td>
+        <td class="product-name">
+          <a href="shop-single-product.html?id=${item.id}">${item.name}</a>
+        </td>
+        <td class="product-price">$${item.price.toFixed(2)}</td>
+        <td class="product-quantity">
+          <div class="quantity">
+            <button class="qty-decrease" data-index="${index}">-</button>
+            <input type="text" value="${item.quantity}" readonly>
+            <button class="qty-increase" data-index="${index}">+</button>
+          </div>
+        </td>
+        <td class="product-subtotal">$${itemTotal.toFixed(2)}</td>
+        <td class="product-remove">
+          <button class="remove-item" data-index="${index}">×</button>
+        </td>
+      `;
+      
+      cartTable.appendChild(row);
+    });
+    
+    // Update cart totals section
+    updateCartTotals(calculateTotal());
+    
+    // Add event listeners to quantity buttons and remove buttons
+    document.querySelectorAll('.qty-decrease').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        updateQuantity(index, 'decrease');
+      });
+    });
+    
+    document.querySelectorAll('.qty-increase').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        updateQuantity(index, 'increase');
+      });
+    });
+    
+    document.querySelectorAll('.remove-item').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        removeFromCart(index);
+      });
+    });
+  }
+  
+  // Function to update cart totals section on cart page
+  function updateCartTotals(subtotal) {
+    // Update subtotal in the grand total section
+    const subtotalElement = document.querySelector('.grand-total-content h3 span');
+    if (subtotalElement) {
+      subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+    }
+    
+    // Update the total price
+    const totalElement = document.querySelector('.grand-total h4 span');
+    if (totalElement) {
+      const shippingCost = 5.00; // Default shipping cost
+      const total = subtotal + shippingCost;
+      totalElement.textContent = `$${total.toFixed(2)}`;
+    }
   }
   
   // Function to calculate total cart value
@@ -118,6 +203,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Function to add item to cart
   window.addToCart = function(product) {
+    // Validate required product properties
+    if (!product || !product.id || !product.name || isNaN(product.price)) {
+      console.error('Invalid product data:', product);
+      return false;
+    }
+    
     // Check if product is already in cart
     const existingItem = cart.find(item => item.id === product.id);
     
@@ -160,31 +251,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartUI();
   }
   
-  // Add event listeners
+  // Add event listeners for minicart interactions
   document.addEventListener('click', function(e) {
-    // Cart toggle button (assuming there's a cart icon in the header)
-    if (e.target.matches('.btn-cart') || e.target.closest('.btn-cart')) {
-      e.preventDefault();
-    }
-    
-    // Remove item button
+    // Minicart remove button
     if (e.target.matches('.minicart-remove')) {
       const index = parseInt(e.target.getAttribute('data-index'));
       removeFromCart(index);
-    }
-    
-    // Regular cart remove button
-    if (e.target.matches('.btn-remove') || e.target.closest('.btn-remove')) {
-      const button = e.target.matches('.btn-remove') ? e.target : e.target.closest('.btn-remove');
-      const index = button.getAttribute('data-index');
-      removeFromCart(parseInt(index));
-    }
-    
-    // Quantity buttons
-    if (e.target.matches('.btn-quantity')) {
-      const index = parseInt(e.target.getAttribute('data-index'));
-      const action = e.target.getAttribute('data-action');
-      updateQuantity(index, action);
     }
     
     // Checkout button - store cart data for checkout page

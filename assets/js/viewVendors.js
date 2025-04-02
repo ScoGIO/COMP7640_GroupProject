@@ -48,9 +48,45 @@ document.addEventListener('DOMContentLoaded', function() {
           noVendors.textContent = 'No vendors available';
           vendorList.appendChild(noVendors);
         }
+        
+        // Add hover behavior for dropdown menu
+        setupVendorDropdownHoverBehavior();
       })
       .catch(error => {
         console.error('Error fetching vendors:', error);
         vendorList.innerHTML = '<li class="menu-item">Error loading vendors</li>';
+        
+        // Still setup hover behavior even if fetch fails
+        setupVendorDropdownHoverBehavior();
       });
+      
+    // Function to set up hover behavior for the vendor dropdown
+    function setupVendorDropdownHoverBehavior() {
+      const verticalMenu = document.querySelector('.vertical-menu');
+      const menuBtn = document.querySelector('.vertical-menu .menu-btn');
+      const vmenuContent = document.querySelector('.vmenu-content');
+      
+      if (!verticalMenu || !menuBtn || !vmenuContent) return;
+      
+      // Show dropdown on button hover
+      menuBtn.addEventListener('mouseover', function() {
+        vmenuContent.classList.remove('vmenu-content-none');
+      });
+      
+      // Show dropdown on menu content hover
+      vmenuContent.addEventListener('mouseover', function() {
+        vmenuContent.classList.remove('vmenu-content-none');
+      });
+      
+      // Hide dropdown when mouse leaves the entire menu area
+      verticalMenu.addEventListener('mouseleave', function() {
+        vmenuContent.classList.add('vmenu-content-none');
+      });
+      
+      // Make dropdown initially visible when button is clicked
+      menuBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        vmenuContent.classList.toggle('vmenu-content-none');
+      });
+    }
   });

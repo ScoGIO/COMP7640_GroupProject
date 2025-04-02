@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vendor</title>
+    <link rel="stylesheet" href="./assets/css/addvendor.css">
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1>Add Vendor</h1>
+        </div>
+        <div class="content">
+            <div class="form-section">
+                <h2>Add Vendor Details</h2>
+                <form action="addVendor.php" method="post">
+					<label for="user_ID">User ID</label>
+					<input type="int" id="user_ID" name="user_ID" required>
+					
+                    <label for="vendor_name">Vendor Name *</label>
+                    <input type="text" id="vendor_name" name="vendor_name" required>
+                    
+                    <label for="geographical_presence">Geographical Presence *</label>
+                    <input type="text" id="geographical_presence" name="geographical_presence" required>
+                    
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+			<div class="button-section">
+                <a href="index.html" class="back-button">
+                    <button type="button">HOME</button>
+                </a>
+            </div>
+            <div class="vendor-id-section">
+                <h2>Vendor ID</h2>
+                <p id="vendor_ID">Vendor ID will appear here</p>
+				<h2>Submitted Data</h2>
+				<div class="data-row">
+					<strong>User ID:</strong> <span id="user_ID_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Vendor Name:</strong> <span id="Vendor_name_display"></span>
+				</div>
+				<div class="data-row">
+					<strong>Geographical Presence:</strong> <span id="geo_display"></span>
+				</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+			const urlParams = new URLSearchParams(window.location.search);
+    
+			// 显示Vendor ID
+			displayValue('vendor_ID', urlParams.get('vendor_ID'));
+    
+			// 显示其他输入字段
+			displayValue('user_ID_display', urlParams.get('user_ID'));
+			displayValue('Vendor_name_display', urlParams.get('vendor_name'));
+			displayValue('geo_display', urlParams.get('geographical_presence'));
+			
+
+			//成功提示保持不变
+			const success = urlParams.get('success');
+			if (success === '1') alert("Product created successfully");
+			else if (success === '0') alert("Failed to create product");
+		});
+
+		// 通用数据显示函数（含XSS防护）
+		function displayValue(elementId, value) {
+			const element = document.getElementById(elementId);
+			if (element && value) {
+				let displayValue = decodeURIComponent(value);
+				// 如果是 tags，尝试解析 JSON 并转换为逗号分隔的字符串
+				if (elementId === 'tags_display') {
+					try {
+						const tagsArray = JSON.parse(displayValue);
+						displayValue = tagsArray.join(', ');
+					} catch (e) {
+						// 如果解析失败，保持原始值
+					}
+				}
+				element.innerHTML = displayValue
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;');
+			}
+		}
+    </script>
+</body>
+</html>
