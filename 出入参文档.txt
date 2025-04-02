@@ -4,7 +4,7 @@ url:http://127.0.0.1:8080/commerce/user/login（127.0.0.1:8080是服务部署主
 入参：body
 入参示例：
 {
-    "username": "6",
+    "userID": "6",
     "password": "cust1pass"
 }
 出参示例：
