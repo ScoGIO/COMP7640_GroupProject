@@ -15,14 +15,19 @@ async function searchProductsByTags(tags) {
       tagsArray = tags;
     }
   }
+  console.log('Tags array:', tagsArray);
   
   try {
-    const response = await fetch('http://127.0.0.1:8080/commerce/product/getProductsByTags', {
+    // FIXED: Use proper query parameters for GET request instead of body
+    const queryParams = new URLSearchParams();
+    tagsArray.forEach(tag => queryParams.append('tag', tag));
+    
+    const response = await fetch(`http://127.0.0.1:8080/commerce/product/getProductsByTags?${queryParams.toString()}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(tagsArray)
+        'Accept': 'application/json'
+      }
+      // Removed body parameter which was causing the error
     });
     
     if (!response.ok) {

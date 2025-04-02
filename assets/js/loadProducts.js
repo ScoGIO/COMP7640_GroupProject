@@ -141,17 +141,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Split tags by comma if multiple tags are provided
     const tagsArray = searchTags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
-    
-    // Call API to search products by tags
-    fetch('http://127.0.0.1:8080/commerce/product/getProductsByTags', {
-      method: 'GET',
+
+    // 注意：这是非标准用法，将 GET 请求与 body 结合使用
+    // 一些服务器可能不处理 GET 请求中的 body 内容
+    fetch('http://localhost:8080/commerce/product/getProductsByTags', {
+      method: 'Post',  // 按要求使用 GET 方法
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',  // 声明我们发送的是 JSON 数据
+        'Accept': 'application/json'
       },
-      body: JSON.stringify(tagsArray)
+      body: JSON.stringify(tagsArray)  // 在 body 中传递数据，尽管这对 GET 请求来说是不标准的
     })
     .then(response => {
       if (!response.ok) {
+        console.log(tagsArray);
+        console.log(JSON.stringify({ tags: tagsArray }));
         throw new Error('Network response was not ok');
       }
       return response.json();
