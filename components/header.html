@@ -110,20 +110,9 @@
           </div>
           <div class="col-12">
             <div class="header-search-box">
-              <form action="#" method="post">
+              <form id="searchForm" action="shop.html" method="get">
                 <div class="form-input-group">
-                  <input type="text" id="search2" placeholder="Enter your search key ...">
-                  <div class="categories-dropdown">
-                    <select class="form-control select-dropdown">
-                      <option selected="">All categories</option>
-                      <option value="lan1">Vegetables</option>
-                      <option value="lan2">Laura Mercier</option>
-                      <option value="lan3">Bananas</option>
-                      <option value="lan1">Apples & Pears</option>
-                      <option value="lan2">Berries & Cherries</option>
-                      <option value="lan3">Oranges & Citrus</option>
-                    </select>
-                  </div>
+                  <input type="text" id="search" name="tags" placeholder="Search by tags (e.g., fruit, electronics)">
                   <button type="submit" class="btn-src">
                     <i class="icon-magnifier"></i>
                   </button>
@@ -142,9 +131,9 @@
         <div class="col-9">
           <div class="header-middle-right">
             <div class="header-search-box">
-              <form action="#" method="post">
+              <form id="searchForm" action="shop.html" method="get">
                 <div class="form-input-group">
-                  <input type="text" id="search" placeholder="Enter your search key ..."> <!--TODO: 搜索功能-->>
+                  <input type="text" id="search" name="tags" placeholder="Search by tags (e.g., fruit, electronics)">
                   <button type="submit" class="btn-src">
                     <i class="icon-magnifier"></i>
                   </button>
@@ -159,10 +148,8 @@
               </div>
               <div class="header-action-cart header-minicart">
                 <a class="btn-cart cart-icon" href="shop-cart.html">
-                  <span class="cart-count">0</span>
                   <i class="icon-bag"></i>
                 </a>
-                <span class="cart-amount">$0.00</span>
                 
               </div>
               <div class="header-action-area">
