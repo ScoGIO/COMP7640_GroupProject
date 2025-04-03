@@ -1,7 +1,7 @@
 Backend settings:
-1. Download MySQL and use the provided SQL statements to create the database and tables, and insert data.
+1. Download MySQL and use the provided SQL statements(in file `Group8_insert_sql.txt`) to create the database and tables, and insert data.
 
-2. Open the project code file using an IDE (such as IntelliJ IDEA). The code uses Java 17. If you need to change the Java version, modify it in the `pom.xml` file as follows:
+2. Open the project code file `demo` using an IDE (such as IntelliJ IDEA). The code uses Java 17. If you need to change the Java version, modify it in the `pom.xml` file as follows:
 ```
 <properties>
     <java.version>(Enter your Java version number)</java.version>
