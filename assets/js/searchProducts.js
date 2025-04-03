@@ -22,12 +22,12 @@ async function searchProductsByTags(tags) {
     const queryParams = new URLSearchParams();
     tagsArray.forEach(tag => queryParams.append('tag', tag));
     
-    const response = await fetch(`http://127.0.0.1:8080/commerce/product/getProductsByTags?${queryParams.toString()}`, {
-      method: 'GET',
+    const response = await fetch(`${CONFIG.SERVER_URL}product/getProductsByTags?${queryParams.toString()}`, {
+      method: 'POST',
       headers: {
         'Accept': 'application/json'
-      }
-      // Removed body parameter which was causing the error
+      },
+      body: JSON.stringify({  tagsArray }) // Send as JSON body if needed by backend
     });
     
     if (!response.ok) {

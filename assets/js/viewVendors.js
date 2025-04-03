@@ -3,12 +3,10 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Find the vendor list element
-    const vendorList = document.getElementById('vendorList');
-    
-    if (!vendorList) return;
     
     // Fetch the vendors data
-    fetch('./api/vendors.json')
+    fetch(CONFIG.SERVER_URL + 'vendor/getAllVendorsAndProducts', {
+        method: 'GET',})
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -18,22 +16,22 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(data => {
         // Clear loading message
         vendorList.innerHTML = '';
-        
+        console.log('Vendors data:', data);
         // Check if vendors exist in the response
-        if (data && data.vendors && Array.isArray(data.vendors)) {
+        if (data && data.data.vendors && Array.isArray(data.data.vendors)) {
           // Loop through each vendor and create a menu item
-          data.vendors.forEach(vendor => {
+          data.data.vendors.forEach(vendor => {
             const listItem = document.createElement('li');
             listItem.className = 'menu-item';
             
             const link = document.createElement('a');
             link.className = 'menu-item-title';
-            link.href = `shop.html?vendor=${vendor.vendor_ID}`;
-            link.textContent = vendor.vendor_name;
+            link.href = `shop.html?vendor=${vendor.vendorID}`;
+            link.textContent = vendor.vendorName;
             
             // Optional: Add vendor rating/location as small text
             const ratingSpan = document.createElement('small');
-            ratingSpan.textContent = ` (${vendor.customer_feedback_score}★)`;
+            ratingSpan.textContent = ` (${vendor.customerFeedbackScore}★)`;
             ratingSpan.style.marginLeft = '5px';
             ratingSpan.style.fontSize = '0.8em';
             
