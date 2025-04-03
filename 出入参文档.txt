@@ -369,7 +369,7 @@ url:http://127.0.0.1:8080/commerce/product/getProductsByTags（127.0.0.1:8080是
 	],
 	"message": "success"
 }
-7.购买商品
+7.购买商品（已完成）
 调用方法：POST
 url:http://127.0.0.1:8080/commerce/order/addOrder（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
 入参：body
@@ -539,7 +539,7 @@ url:http://127.0.0.1:8080/commerce/order/getOrdersByCustomerId?customerId=1（12
 	"message": "success"
 }
 
-9.修改订单
+9.修改订单（已完成）
 调用方法：POST
 url:http://127.0.0.1:8080/commerce/order/updateOrder（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
 入参：body
@@ -593,7 +593,7 @@ url:http://127.0.0.1:8080/commerce/order/updateOrder（127.0.0.1:8080是服务�
 	"message": "success"
 }
 
-10.删除订单
+10.删除订单(已完成)
 调用方法：DELETE
 url:http://127.0.0.1:8080/commerce/order/deleteOrder?orderId=33127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
 入参：path

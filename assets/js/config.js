@@ -5,3 +5,4 @@ const CONFIG = {
   
   // Add other global configuration settings as needed
 };
+window.CONFIG = CONFIG;

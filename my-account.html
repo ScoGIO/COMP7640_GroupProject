@@ -90,14 +90,11 @@
                   <div class="col-lg-3 col-md-4">
                     <nav>
                       <div class="myaccount-tab-menu nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
+                        <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
                           type="button" role="tab" aria-controls="orders" aria-selected="false"> Orders</button>
                         <button class="nav-link" id="address-edit-tab" data-bs-toggle="tab"
                           data-bs-target="#address-edit" type="button" role="tab" aria-controls="address-edit"
                           aria-selected="false">address</button>
-                        <button class="nav-link" id="account-info-tab" data-bs-toggle="tab"
-                          data-bs-target="#account-info" type="button" role="tab" aria-controls="account-info"
-                          aria-selected="false">my product</button>
                         <button class="nav-link" id="become-vendor-tab" type="button"
                           onclick="window.location.href='addVendor.html'">to be a vendor</button>
                           <button class="nav-link" id="become-vendor-tab" type="button"
@@ -108,7 +105,7 @@
                   </div>
                   <div class="col-lg-9 col-md-8">
                     <div class="tab-content" id="nav-tabContent">
-                      <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                      <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                         <div class="myaccount-content">
                           <h3>Orders</h3>
                           <div class="myaccount-table table-responsive text-center">
@@ -737,7 +734,7 @@
   </div>
 
   <!--=======================Javascript============================-->
-
+  <script src="assets/js/config.js"></script>
   <!--=== Modernizr Min Js ===-->
   <script src="assets/js/modernizr.js"></script>
   <!--=== jQuery Min Js ===-->

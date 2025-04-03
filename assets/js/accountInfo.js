@@ -44,13 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const signOutLinks = document.querySelectorAll('.info-dropdown a[href="login.html"]');
     signOutLinks.forEach(link => {
       link.textContent = 'Sign In';
-      link.href = 'login-register.html';
+      link.href = 'login.html';
     });
   }
 
   if (!userData) {
     // Redirect to login if not logged in
-    window.location.href = 'login-register.html';
+    window.location.href = 'login.html';
     return;
   }
 
@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function fetchCustomerOrders(customerId) {
   // Fetch orders for the logged-in customer
-  fetch(`${CONFIG.SERVER_URL}order/getOrdersByCustomerId?customerId=${customerId}`)
+  fetch(`${CONFIG.SERVER_URL}order/getOrdersByCustomerId?customerId=${customerId}`,{
+    method: 'GET',
+  })
     .then(response => response.json())
     .then(data => {
       if (data.code === 200) {
@@ -127,13 +129,13 @@ function displayOrders(orders) {
         const status = order.transactions[0].status;
 
         if (status === 0) {
-          statusText = 'Pending';
+          statusText = 'Processing';
           statusClass = 'text-secondary';
         } else if (status === 1) {
-          statusText = 'Processing';
+          statusText = 'Shipped';
           statusClass = 'text-primary';
         } else if (status === 2) {
-          statusText = 'Shipped';
+          statusText = 'canceled';
           statusClass = 'text-info';
         } else if (status === 3) {
           statusText = 'Delivered';
@@ -154,6 +156,17 @@ function displayOrders(orders) {
         itemsSummary = 'No items';
       }
 
+      const status = order.transactions && order.transactions.length > 0 ? order.transactions[0].status : 0;
+      let actionButtons = `<a href="#" class="check-btn sqr-btn view-order-details" data-order-id="${order.orderId}">View</a>`;
+
+      // Add modify and cancel buttons for Processing orders
+      if (status === 0) {
+        actionButtons += `
+          <a href="#" class="check-btn sqr-btn modify-order" data-order-id="${order.orderId}" style="margin-left: 5px; background-color: #4CAF50; color: white;">Modify</a>
+          <a href="#" class="check-btn sqr-btn cancel-order" data-order-id="${order.orderId}" style="margin-left: 5px; background-color: #f44336; color: white;">Cancel</a>
+        `;
+      }
+
       // Create row
       const row = document.createElement('tr');
       row.innerHTML = `
@@ -162,7 +175,7 @@ function displayOrders(orders) {
         <td>${itemsSummary}</td>
         <td><span class="${statusClass}">${statusText}</span></td>
         <td>$${order.totalPrice.toFixed(2)}</td>
-        <td><a href="#" class="check-btn sqr-btn view-order-details" data-order-id="${order.orderId}">View</a></td>
+        <td>${actionButtons}</td>
       `;
 
       tableBody.appendChild(row);
@@ -176,6 +189,29 @@ function displayOrders(orders) {
         const order = orders.find(o => o.orderId == orderId);
         if (order) {
           showOrderDetails(order);
+        }
+      });
+    });
+
+    // Add event listeners to modify buttons
+    document.querySelectorAll('.modify-order').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const orderId = this.getAttribute('data-order-id');
+        const order = orders.find(o => o.orderId == orderId);
+        if (order) {
+          showOrderModifyForm(order);
+        }
+      });
+    });
+
+    // Add event listeners to cancel buttons
+    document.querySelectorAll('.cancel-order').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const orderId = this.getAttribute('data-order-id');
+        if (confirm('Are you sure you want to cancel this order?')) {
+          cancelOrder(orderId);
         }
       });
     });
@@ -256,6 +292,49 @@ function showOrderDetails(order) {
     </div>
   `;
 
+  // Determine if order is in processing state
+  const isProcessing = order.transactions && 
+                       order.transactions.length > 0 && 
+                       order.transactions[0].status === 0;
+
+  let footerButtons = `
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  `;
+
+  if (isProcessing) {
+    footerButtons += `
+      <button type="button" class="btn btn-success modify-from-details" data-order-id="${order.orderId}">Modify Order</button>
+      <button type="button" class="btn btn-danger cancel-from-details" data-order-id="${order.orderId}">Cancel Order</button>
+    `;
+  }
+
+  modal.querySelector('.modal-footer').innerHTML = footerButtons;
+
+  // Add event listeners for the new buttons
+  if (isProcessing) {
+    modal.querySelector('.modify-from-details').addEventListener('click', function() {
+      // Close details modal
+      const detailsModal = bootstrap.Modal.getInstance(modal);
+      detailsModal.hide();
+      
+      // Show modify form
+      setTimeout(() => {
+        showOrderModifyForm(order);
+      }, 500);
+    });
+    
+    modal.querySelector('.cancel-from-details').addEventListener('click', function() {
+      if (confirm('Are you sure you want to cancel this order?')) {
+        // Close details modal
+        const detailsModal = bootstrap.Modal.getInstance(modal);
+        detailsModal.hide();
+        
+        // Process cancellation
+        cancelOrder(order.orderId);
+      }
+    });
+  }
+
   document.body.appendChild(modal);
 
   // Create and initialize the Bootstrap modal
@@ -265,6 +344,188 @@ function showOrderDetails(order) {
   // Remove modal from DOM after it's hidden
   modal.addEventListener('hidden.bs.modal', function () {
     document.body.removeChild(modal);
+  });
+}
+
+// Add this function to handle order cancellation
+
+function cancelOrder(orderId) {
+  // Show loading spinner or message
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  if (!userData || !userData.user || !userData.user.customerId) {
+    alert('You must be logged in to cancel an order.');
+    return;
+  }
+
+  // Call the API to delete the order
+  fetch(`${CONFIG.SERVER_URL}order/deleteOrder?orderId=${orderId}`, {
+    method: 'DELETE',
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 200) {
+      alert('Order has been cancelled successfully.');
+      // Refresh orders list
+      fetchCustomerOrders(userData.user.customerId);
+    } else {
+      alert('Failed to cancel order: ' + (data.message || 'Unknown error'));
+    }
+  })
+  .catch(error => {
+    console.error('Error cancelling order:', error);
+    alert('An error occurred while trying to cancel the order. Please try again.');
+  });
+}
+
+// Add this function to show the modification form
+
+function showOrderModifyForm(order) {
+  // Create a modal with a form to modify the order
+  const modal = document.createElement('div');
+  modal.className = 'modal fade';
+  modal.id = 'orderModifyModal';
+  modal.setAttribute('tabindex', '-1');
+  modal.setAttribute('aria-hidden', 'true');
+
+  // Create transaction form inputs
+  let transactionInputs = '';
+  if (order.transactions && order.transactions.length > 0) {
+    order.transactions.forEach(transaction => {
+      transactionInputs += `
+        <div class="mb-3 row">
+          <label class="col-sm-4 col-form-label">Product ID: ${transaction.productId}</label>
+          <div class="col-sm-8">
+            <input type="number" class="form-control transaction-quantity" 
+                   data-transaction-id="${transaction.transactionId}" 
+                   data-product-id="${transaction.productId}" 
+                   value="${transaction.count}" min="1">
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  modal.innerHTML = `
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modify Order #${order.orderId}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="orderModifyForm">
+            <input type="hidden" id="modifyOrderId" value="${order.orderId}">
+            <div class="mb-3">
+              <p>Adjust quantities as needed. Set to 0 to remove an item.</p>
+            </div>
+            ${transactionInputs}
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveOrderChanges">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Create and initialize the Bootstrap modal
+  const modalInstance = new bootstrap.Modal(modal);
+  modalInstance.show();
+
+  // Add event listener to save button
+  document.getElementById('saveOrderChanges').addEventListener('click', function() {
+    saveOrderChanges(order);
+  });
+
+  // Remove modal from DOM after it's hidden
+  modal.addEventListener('hidden.bs.modal', function() {
+    document.body.removeChild(modal);
+  });
+}
+
+// Add this function to save the changes to an order
+
+function saveOrderChanges(originalOrder) {
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  if (!userData || !userData.user || !userData.user.customerId) {
+    alert('You must be logged in to modify an order.');
+    return;
+  }
+
+  // Get the updated quantities
+  const transactions = [];
+  let totalPrice = 0;
+
+  document.querySelectorAll('.transaction-quantity').forEach(input => {
+    const transactionId = input.getAttribute('data-transaction-id');
+    const productId = input.getAttribute('data-product-id');
+    const count = parseInt(input.value, 10);
+    
+    if (count > 0) {
+      // Find the original transaction to get the price
+      const originalTransaction = originalOrder.transactions.find(t => t.transactionId == transactionId);
+      const unitPrice = originalTransaction.transactionPrice / originalTransaction.count;
+      const transactionPrice = unitPrice * count;
+      
+      totalPrice += transactionPrice;
+      
+      transactions.push({
+        transactionId: parseInt(transactionId, 10),
+        productId: parseInt(productId, 10),
+        orderId: originalOrder.orderId,
+        count: count,
+        transactionPrice: transactionPrice,
+        status: 0 // Keep as processing
+      });
+    }
+  });
+
+  if (transactions.length === 0) {
+    if (confirm('You have removed all items. Do you want to cancel the order?')) {
+      cancelOrder(originalOrder.orderId);
+      const modalElement = document.getElementById('orderModifyModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      modalInstance.hide();
+    }
+    return;
+  }
+
+  // Prepare the update data
+  const updateData = {
+    orderId: originalOrder.orderId,
+    customerId: userData.user.customerId,
+    totalPrice: totalPrice,
+    transactions: transactions
+  };
+
+  // Call the API to update the order
+  fetch(`${CONFIG.SERVER_URL}order/updateOrder`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updateData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 200) {
+      alert('Order has been updated successfully.');
+      // Close the modal
+      const modalElement = document.getElementById('orderModifyModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      modalInstance.hide();
+      // Refresh orders list
+      fetchCustomerOrders(userData.user.customerId);
+    } else {
+      alert('Failed to update order: ' + (data.message || 'Unknown error'));
+    }
+  })
+  .catch(error => {
+    console.error('Error updating order:', error);
+    alert('An error occurred while trying to update the order. Please try again.');
   });
 }
 
