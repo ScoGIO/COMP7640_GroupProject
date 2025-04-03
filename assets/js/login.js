@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     const loginButton = document.getElementById('loginButton');
     const loginMessage = document.getElementById('loginMessage');
@@ -14,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       
-      // Send credentials to backend
-      fetch('http://localhost:8080/commerce/user/login', {
+      // Send credentials to backend using the global CONFIG
+      fetch(`${CONFIG.SERVER_URL}user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

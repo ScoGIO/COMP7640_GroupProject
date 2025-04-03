@@ -1,192 +1,3 @@
-const mockAPI = {
-    // Mock user data
-    users: {
-      "6": {
-        code: 200,
-        data: {
-          type: 1,
-          user: {
-            customerId: 1,
-            userId: 6,
-            userName: "John Doe",
-            contactNumber: 155512345
-          }
-        },
-        message: "success"
-      },
-      "1": {
-        code: 200,
-        data: {
-          type: 2,
-          user: {
-            vendorId: 1,
-            userId: 1,
-            vendorName: "Fresh Foods Co",
-            customerFeedbackScore: 4.5,
-            geographicalPresence: "New York"
-          }
-        },
-        message: "success"
-      },
-      "admin": {
-        code: 200,
-        data: {
-          type: 0,
-          user: {
-            userID: 13,
-            pwd: null,
-            type: 0
-          }
-        },
-        message: "success"
-      }
-    },
-  
-    // Mock orders data - copied from the getOrdersByCustomerId file
-    customerOrders: {
-      "1": {
-        code: 200,
-        data: [
-          {
-            orderId: 1,
-            customerId: 1,
-            totalPrice: 29.9,
-            orderTime: "2025-03-31T09:00:07",
-            transactions: [
-              {
-                transactionId: 1,
-                productId: 1,
-                orderId: 1,
-                count: 10,
-                transactionPrice: 29.9,
-                status: 3
-              }
-            ]
-          },
-          {
-            orderId: 8,
-            customerId: 1,
-            totalPrice: 59.96,
-            orderTime: "2025-03-31T16:05:21",
-            transactions: [
-              {
-                transactionId: 9,
-                productId: 6,
-                orderId: 8,
-                count: 20,
-                transactionPrice: 19.8,
-                status: 3
-              },
-              {
-                transactionId: 10,
-                productId: 5,
-                orderId: 8,
-                count: 3,
-                transactionPrice: 38.97,
-                status: 3
-              }
-            ]
-          },
-          {
-            orderId: 15,
-            customerId: 1,
-            totalPrice: 12.99,
-            orderTime: "2025-03-31T11:55:13",
-            transactions: [
-              {
-                transactionId: 18,
-                productId: 5,
-                orderId: 15,
-                count: 1,
-                transactionPrice: 12.99,
-                status: 2
-              }
-            ]
-          },
-          {
-            orderId: 22,
-            customerId: 1,
-            totalPrice: 89.97,
-            orderTime: "2025-03-31T18:40:59",
-            transactions: [
-              {
-                transactionId: 26,
-                productId: 8,
-                orderId: 22,
-                count: 3,
-                transactionPrice: 119.97,
-                status: 3
-              }
-            ]
-          },
-          {
-            orderId: 29,
-            customerId: 1,
-            totalPrice: 39.99,
-            orderTime: "2025-03-31T13:40:30",
-            transactions: [
-              {
-                transactionId: 34,
-                productId: 8,
-                orderId: 29,
-                count: 1,
-                transactionPrice: 39.99,
-                status: 2
-              }
-            ]
-          },
-          {
-            orderId: 31,
-            customerId: 1,
-            totalPrice: 199.9,
-            orderTime: "2025-03-31T00:40:02",
-            transactions: [
-              {
-                transactionId: 36,
-                productId: 2,
-                orderId: 31,
-                count: 10,
-                transactionPrice: 199.9,
-                status: 0
-              }
-            ]
-          },
-          {
-            orderId: 32,
-            customerId: 1,
-            totalPrice: 199.9,
-            orderTime: "2025-03-31T00:44:44",
-            transactions: [
-              {
-                transactionId: 37,
-                productId: 2,
-                orderId: 32,
-                count: 10,
-                transactionPrice: 199.9,
-                status: 0
-              }
-            ]
-          }
-        ],
-        message: "success"
-      }
-    },
-    
-    getOrdersByCustomerId: function(customerId) {
-        return new Promise((resolve, reject) => {
-          if (this.customerOrders[customerId]) {
-            resolve(this.customerOrders[customerId]);
-          } else {
-            resolve({
-              code: 404,
-              data: [],
-              message: "No orders found for this customer"
-            });
-          }
-        });
-      }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     // Check if user is logged in
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -207,24 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
       fetchCustomerOrders(userData.user.customerId);
     }
   });
-  window.mockAPI = mockAPI;
+
   function fetchCustomerOrders(customerId) {{
-    // Check if we should use mockAPI (if real API is not available)
-    if (window.mockAPI) {
-      console.log("Using mock API for fetching orders");
-      mockAPI.getOrdersByCustomerId(customerId)
-        .then(data => {
-          if (data.code === 200) {
-            displayOrders(data.data);
-          } else {
-            console.error('Error fetching orders:', data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Failed to fetch orders:', error);
-        });
-    } else {
-    fetch(`http://127.0.0.1:8080/commerce/order/getOrdersByCustomerId?customerId=${customerId}`)
+    // Fetch orders for the logged-in customer
+    fetch(`${CONFIG.SERVER_URL}order/getOrdersByCustomerId?customerId=${customerId}`)
       .then(response => response.json())
       .then(data => {
         if (data.code === 200) {
@@ -236,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(error => {
         console.error('Failed to fetch orders:', error);
       });
-  }}
+  }
 
   function displayOrders(orders) {
     const tableBody = document.querySelector('#orders .myaccount-table tbody');
