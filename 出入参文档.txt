@@ -1,0 +1,629 @@
+1.登录（已完成）
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/user/login（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+{
+    "userID": "6",
+    "password": "cust1pass"
+}
+出参示例：
+admin:
+{
+	"code": 200,
+	"data": {
+		"type": 0,
+		"user": {
+			"userID": 13,
+			"pwd": null,
+			"type": 0
+		}
+	},
+	"message": "success"
+}
+
+customer:
+{
+	"code": 200,
+	"data": {
+		"type": 1,
+		"user": {
+			"customerId": 1,
+			"userId": 6,
+			"userName": "John Doe",
+			"contactNumber": 155512345
+		}
+	},
+	"message": "success"
+}
+
+vendor:
+{
+	"code": 200,
+	"data": {
+		"type": 2,
+		"user": {
+			"vendorId": 1,
+			"userId": 1,
+			"vendorName": "Fresh Foods Co",
+			"customerFeedbackScore": 4.5,
+			"geographicalPresence": "New York"
+		}
+	},
+	"message": "success"
+}
+
+error:
+{
+	"code": 400,
+	"message": "Incorrect username or password"
+}
+2.浏览供应商列表（已完成）
+调用方法：GET
+url:http://127.0.0.1:8080/commerce/vendor/getAllVendorsAndProducts（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：无
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"vendors": [
+			{
+				"vendorID": 1,
+				"userID": 1,
+				"vendorName": "Fresh Foods Co",
+				"customerFeedbackScore": 4.5,
+				"geographicalPresence": "New York",
+				"products": [
+					{
+						"productId": 1,
+						"productName": "Organic Apples",
+						"price": 2.99,
+						"tags": "[\"fruit\", \"organic\"]",
+						"tagsList": [
+							"fruit",
+							"organic"
+						],
+						"inventory": 100,
+						"vendorId": 1
+					},
+					{
+						"productId": 6,
+						"productName": "Bananas",
+						"price": 0.99,
+						"tags": "[\"fruit\"]",
+						"tagsList": [
+							"fruit"
+						],
+						"inventory": 150,
+						"vendorId": 1
+					}
+				]
+			},
+			{
+				"vendorID": 2,
+				"userID": 2,
+				"vendorName": "Tech Gadgets Ltd",
+				"customerFeedbackScore": 4.8,
+				"geographicalPresence": "Hong Kong",
+				"products": [
+					{
+						"productId": 2,
+						"productName": "Wireless Mouse",
+						"price": 19.99,
+						"tags": "[\"electronics\"]",
+						"tagsList": [
+							"electronics"
+						],
+						"inventory": 50,
+						"vendorId": 2
+					},
+					{
+						"productId": 7,
+						"productName": "Bluetooth Speaker",
+						"price": 79.99,
+						"tags": "[\"electronics\"]",
+						"tagsList": [
+							"electronics"
+						],
+						"inventory": 40,
+						"vendorId": 2
+					}
+				]
+			},
+			{
+				"vendorID": 3,
+				"userID": 3,
+				"vendorName": "Fashion Hub",
+				"customerFeedbackScore": 4.2,
+				"geographicalPresence": "Los Angeles",
+				"products": [
+					{
+						"productId": 3,
+						"productName": "Cotton T-Shirt",
+						"price": 14.99,
+						"tags": "[\"clothing\"]",
+						"tagsList": [
+							"clothing"
+						],
+						"inventory": 75,
+						"vendorId": 3
+					},
+					{
+						"productId": 8,
+						"productName": "Jeans",
+						"price": 39.99,
+						"tags": "[\"clothing\"]",
+						"tagsList": [
+							"clothing"
+						],
+						"inventory": 60,
+						"vendorId": 3
+					}
+				]
+			},
+			{
+				"vendorID": 4,
+				"userID": 4,
+				"vendorName": "Home Essentials",
+				"customerFeedbackScore": 4.6,
+				"geographicalPresence": "Chicago",
+				"products": [
+					{
+						"productId": 4,
+						"productName": "Kitchen Knife Set",
+						"price": 49.99,
+						"tags": "[\"home\", \"kitchen\"]",
+						"tagsList": [
+							"home",
+							"kitchen"
+						],
+						"inventory": 30,
+						"vendorId": 4
+					}
+				]
+			},
+			{
+				"vendorID": 5,
+				"userID": 5,
+				"vendorName": "Book World",
+				"customerFeedbackScore": 4.7,
+				"geographicalPresence": "Sydney",
+				"products": [
+					{
+						"productId": 5,
+						"productName": "Bestseller Novel",
+						"price": 12.99,
+						"tags": "[\"books\"]",
+						"tagsList": [
+							"books"
+						],
+						"inventory": 200,
+						"vendorId": 5
+					}
+				]
+			}
+		]
+	},
+	"message": "success"
+}
+
+3.增加供应商（非我责）
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/vendor/addVendor（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+{
+    "vendorName": "testVendor",
+    "geographicalPresence": "Hong Kong"
+}
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"vendorID": 8,
+		"userID": 16,
+		"vendorName": "testVendor",
+		"customerFeedbackScore": 0,
+		"geographicalPresence": "Hong Kong",
+		"products": null
+	},
+	"message": "success"
+}
+
+4.查看特定供应商的产品（已完成）
+调用方法：GET
+url:http://127.0.0.1:8080/commerce/product/getProductsByVendorId?vendorId=1（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：path
+入参示例：见url
+出参示例：
+{
+	"code": 200,
+	"data": [
+		{
+			"productId": 1,
+			"productName": "Organic Apples",
+			"price": 2.99,
+			"tags": "[\"fruit\", \"organic\"]",
+			"tagsList": [
+				"fruit",
+				"organic"
+			],
+			"inventory": 100,
+			"vendorId": 1
+		},
+		{
+			"productId": 6,
+			"productName": "Bananas",
+			"price": 0.99,
+			"tags": "[\"fruit\"]",
+			"tagsList": [
+				"fruit"
+			],
+			"inventory": 150,
+			"vendorId": 1
+		}
+	],
+	"message": "success"
+}
+
+5.添加商品（非我责）
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/product/addProduct（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+{
+    "productName": "mango",
+    "price": "3",
+    "tags":"[\"fruit\"]",
+    "inventory":"100",
+    "vendorId":"8"
+}
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"productId": 10,
+		"productName": "mango",
+		"price": 3,
+		"tags": "[\"fruit\"]",
+		"tagsList": [
+			"fruit"
+		],
+		"inventory": 100,
+		"vendorId": 8
+	},
+	"message": "success"
+}
+
+6.搜索商品(已完成)
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/product/getProductsByTags（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+[
+    "fruit"
+]
+若没有搜索条件，则入参为[]
+出参示例：
+{
+	"code": 200,
+	"data": [
+		{
+			"productId": 1,
+			"productName": "Organic Apples",
+			"price": 2.99,
+			"tags": "[\"fruit\", \"organic\"]",
+			"tagsList": [
+				"fruit",
+				"organic"
+			],
+			"inventory": 100,
+			"vendorId": 1,
+			"vendor": {
+				"vendorID": 1,
+				"userID": 1,
+				"vendorName": "Fresh Foods Co",
+				"customerFeedbackScore": 4.5,
+				"geographicalPresence": "New York",
+				"products": null
+			}
+		},
+		{
+			"productId": 6,
+			"productName": "Bananas",
+			"price": 0.99,
+			"tags": "[\"fruit\"]",
+			"tagsList": [
+				"fruit"
+			],
+			"inventory": 150,
+			"vendorId": 1,
+			"vendor": {
+				"vendorID": 1,
+				"userID": 1,
+				"vendorName": "Fresh Foods Co",
+				"customerFeedbackScore": 4.5,
+				"geographicalPresence": "New York",
+				"products": null
+			}
+		},
+		{
+			"productId": 10,
+			"productName": "mango",
+			"price": 3,
+			"tags": "[\"fruit\"]",
+			"tagsList": [
+				"fruit"
+			],
+			"inventory": 100,
+			"vendorId": 8,
+			"vendor": {
+				"vendorID": 8,
+				"userID": 16,
+				"vendorName": "testVendor",
+				"customerFeedbackScore": 0,
+				"geographicalPresence": "Hong Kong",
+				"products": null
+			}
+		}
+	],
+	"message": "success"
+}
+7.购买商品（已完成）
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/order/addOrder（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+{
+    "customerId":"1",
+    "transactions":[
+        {
+            "productId":"2",
+            "count":10
+        }
+    ],
+    "totalPrice":"199.9"
+}
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"orderId": 32,
+		"customerId": 1,
+		"totalPrice": 199.9,
+		"orderTime": "2025-03-31T00:44:43.942155",
+		"transactions": [
+			{
+				"transactionId": 37,
+				"productId": 2,
+				"orderId": 32,
+				"count": 10,
+				"transactionPrice": 199.9,
+				"status": 0
+			}
+		]
+	},
+	"message": "success"
+}
+
+8.用户查看历史订单（已完成）
+调用方法：GET
+url:http://127.0.0.1:8080/commerce/order/getOrdersByCustomerId?customerId=1（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：path
+入参示例：见url
+出参示例：
+{
+	"code": 200,
+	"data": [
+		{
+			"orderId": 1,
+			"customerId": 1,
+			"totalPrice": 29.9,
+			"orderTime": "2025-03-31T09:00:07",
+			"transactions": [
+				{
+					"transactionId": 1,
+					"productId": 1,
+					"orderId": 1,
+					"count": 10,
+					"transactionPrice": 29.9,
+					"status": 3
+				}
+			]
+		},
+		{
+			"orderId": 8,
+			"customerId": 1,
+			"totalPrice": 59.96,
+			"orderTime": "2025-03-31T16:05:21",
+			"transactions": [
+				{
+					"transactionId": 9,
+					"productId": 6,
+					"orderId": 8,
+					"count": 20,
+					"transactionPrice": 19.8,
+					"status": 3
+				},
+				{
+					"transactionId": 10,
+					"productId": 5,
+					"orderId": 8,
+					"count": 3,
+					"transactionPrice": 38.97,
+					"status": 3
+				}
+			]
+		},
+		{
+			"orderId": 15,
+			"customerId": 1,
+			"totalPrice": 12.99,
+			"orderTime": "2025-03-31T11:55:13",
+			"transactions": [
+				{
+					"transactionId": 18,
+					"productId": 5,
+					"orderId": 15,
+					"count": 1,
+					"transactionPrice": 12.99,
+					"status": 2
+				}
+			]
+		},
+		{
+			"orderId": 22,
+			"customerId": 1,
+			"totalPrice": 89.97,
+			"orderTime": "2025-03-31T18:40:59",
+			"transactions": [
+				{
+					"transactionId": 26,
+					"productId": 8,
+					"orderId": 22,
+					"count": 3,
+					"transactionPrice": 119.97,
+					"status": 3
+				}
+			]
+		},
+		{
+			"orderId": 29,
+			"customerId": 1,
+			"totalPrice": 39.99,
+			"orderTime": "2025-03-31T13:40:30",
+			"transactions": [
+				{
+					"transactionId": 34,
+					"productId": 8,
+					"orderId": 29,
+					"count": 1,
+					"transactionPrice": 39.99,
+					"status": 2
+				}
+			]
+		},
+		{
+			"orderId": 31,
+			"customerId": 1,
+			"totalPrice": 199.9,
+			"orderTime": "2025-03-31T00:40:02",
+			"transactions": [
+				{
+					"transactionId": 36,
+					"productId": 2,
+					"orderId": 31,
+					"count": 10,
+					"transactionPrice": 199.9,
+					"status": 0
+				}
+			]
+		},
+		{
+			"orderId": 32,
+			"customerId": 1,
+			"totalPrice": 199.9,
+			"orderTime": "2025-03-31T00:44:44",
+			"transactions": [
+				{
+					"transactionId": 37,
+					"productId": 2,
+					"orderId": 32,
+					"count": 10,
+					"transactionPrice": 199.9,
+					"status": 0
+				}
+			]
+		}
+	],
+	"message": "success"
+}
+
+9.修改订单（已完成）
+调用方法：POST
+url:http://127.0.0.1:8080/commerce/order/updateOrder（127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：body
+入参示例：
+{
+    "orderId":"33",
+    "customerId":"1",
+    "transactions":[
+        {
+            "transactionId": 38,
+            "productId": 2,
+            "count": 10,
+            "status": 0
+        },
+        {
+            "transactionId": 39,
+            "productId": 3,
+            "count": 10,
+            "status": 2
+        }
+    ],
+    "totalPrice":"199.9"
+}
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"orderId": 33,
+		"customerId": 1,
+		"totalPrice": 199.9,
+		"orderTime": "2025-03-31T01:16:33",
+		"transactions": [
+			{
+				"transactionId": 38,
+				"productId": 2,
+				"orderId": 33,
+				"count": 10,
+				"transactionPrice": 199.9,
+				"status": 0
+			},
+			{
+				"transactionId": 39,
+				"productId": 3,
+				"orderId": 33,
+				"count": 10,
+				"transactionPrice": 149.9,
+				"status": 2
+			}
+		]
+	},
+	"message": "success"
+}
+
+10.删除订单(已完成)
+调用方法：DELETE
+url:http://127.0.0.1:8080/commerce/order/deleteOrder?orderId=33127.0.0.1:8080是服务部署主机地址和端口，根据实际修改）
+入参：path
+入参示例：见url
+出参示例：
+{
+	"code": 200,
+	"data": {
+		"orderId": 33,
+		"customerId": 1,
+		"totalPrice": 199.9,
+		"orderTime": "2025-03-31T01:16:33",
+		"transactions": [
+			{
+				"transactionId": 38,
+				"productId": 2,
+				"orderId": 33,
+				"count": 10,
+				"transactionPrice": 199.9,
+				"status": 2
+			},
+			{
+				"transactionId": 39,
+				"productId": 3,
+				"orderId": 33,
+				"count": 10,
+				"transactionPrice": 149.9,
+				"status": 2
+			}
+		]
+	},
+	"message": "success"
+}
