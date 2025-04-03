@@ -14,7 +14,7 @@ Also, update the versions of other dependencies to ensure compatibility, and the
 4. Start the backend Java project code under `src/main/java/com/hkbu/commerce/CommerceApplication.java`.
 
 frontend settings:
-1. Update `SERVER_URL` in assets/js/config.js to your backend ip address. If you are running a 
+1. Update `SERVER_URL` in `assets/js/config.js` to your backend ip address. If you are running a 
     local server, use 'localhost' or '127.0.0.1'
 
 2. Double click login.html to start the program. Use customerId '6' and pwd 'cust1pass' as a test
