@@ -16,8 +16,8 @@ Also, update the versions of other dependencies to ensure compatibility, and the
 Frontend settings:
 1. Update `SERVER_URL` in `assets/js/config.js` to your backend ip address. If you are running a 
     local server, use 
-    >localhost:8080/commerce/
-    or
+    >localhost:8080/commerce/  
+    or  
     >127.0.0.1:8080/commerce/
 
 2. Double click `login.html` to start the program. Use customerId '6' and pwd 'cust1pass' as a test
